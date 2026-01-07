@@ -13,10 +13,10 @@ export function ServiceCard({ service }: ServiceCardProps) {
     : null;
 
   return (
-    <article className="card group">
+    <article className="card group bg-white/80 backdrop-blur-sm">
       {/* Image */}
       {service.imageUrl ? (
-        <div className="aspect-video overflow-hidden bg-slate-100">
+        <div className="aspect-video overflow-hidden bg-amber-50">
           <img
             src={service.imageUrl}
             alt={`${service.title} - ${service.description || "Service offering"}`}
@@ -25,19 +25,22 @@ export function ServiceCard({ service }: ServiceCardProps) {
           />
         </div>
       ) : (
-        <div className="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+        <div className="aspect-video bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center relative overflow-hidden">
+          {/* Honeycomb pattern */}
+          <div className="absolute inset-0 bg-honeycomb opacity-50" aria-hidden="true" />
+          {/* Hexagon icon */}
           <svg
-            className="w-12 h-12 text-primary-400"
+            className="w-16 h-16 text-primary-400 relative z-10"
+            viewBox="0 0 40 40"
             fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
             aria-hidden="true"
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+              d="M20 4L34 12V28L20 36L6 28V12L20 4Z"
+              fill="currentColor"
+              fillOpacity="0.3"
+              stroke="currentColor"
+              strokeWidth="1.5"
             />
           </svg>
         </div>

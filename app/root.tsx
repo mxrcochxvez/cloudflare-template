@@ -22,17 +22,19 @@ export const links: LinksFunction = () => [
 export const meta: MetaFunction = () => [
   { charSet: "utf-8" },
   { name: "viewport", content: "width=device-width, initial-scale=1" },
-  { title: "EdgeShop Consulting | Expert Solutions for Your Business" },
+  { title: "Hexacomb | Building Your Digital Hive" },
   { 
     name: "description", 
-    content: "Professional consulting services for small businesses. We help you grow with modern technology solutions." 
+    content: "Hexacomb builds efficient, scalable technology solutions for small businesses. Web development, cloud solutions, and AI integration." 
   },
   // Open Graph
   { property: "og:type", content: "website" },
-  { property: "og:title", content: "EdgeShop Consulting" },
-  { property: "og:description", content: "Professional consulting services for small businesses." },
+  { property: "og:title", content: "Hexacomb" },
+  { property: "og:description", content: "Building efficient, scalable technology solutions for your business." },
   // Twitter Card
   { name: "twitter:card", content: "summary_large_image" },
+  // Theme color (honey gold)
+  { name: "theme-color", content: "#f59e0b" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
