@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "remix vite:dev",
     "dev:wrangler": "npm run build && wrangler dev",
+    "dev:local": "cross-env LOCAL_DEV=true remix vite:dev",
     "build": "remix vite:build",
     "start": "wrangler dev",
     "typecheck": "tsc",
@@ -16,7 +17,8 @@
     "db:migrate:prod": "wrangler d1 migrations apply cloudflare-template-db --remote",
     "db:studio": "drizzle-kit studio",
     "seed": "npx tsx scripts/seed.ts",
-    "setup": "npm run db:migrate && npm run seed && npm run dev"
+    "setup": "npx tsx scripts/setup-local-db.ts && npm run dev:local",
+    "setup:local": "npx tsx scripts/setup-local-db.ts"
   },
   "dependencies": {
     "@remix-run/cloudflare": "^2.15.0",
@@ -29,9 +31,12 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241127.0",
     "@remix-run/dev": "^2.15.0",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
+    "better-sqlite3": "^12.5.0",
+    "cross-env": "^10.1.0",
     "drizzle-kit": "^0.31.8",
     "eslint": "^9.15.0",
     "postcss": "^8.4.49",

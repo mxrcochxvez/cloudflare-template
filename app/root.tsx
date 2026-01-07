@@ -17,6 +17,7 @@ import { Footer } from "~/components/Footer";
 import { getEnv } from "~/lib/env.server";
 import { getDb, siteConfig } from "~/lib/db.server";
 import { BrandingProvider, configToBranding, defaultBranding, type BrandingConfig } from "~/context/BrandingContext";
+import { mockConfig } from "~/lib/mock-config";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -45,40 +46,47 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 interface LoaderData {
   branding: BrandingConfig;
+  isLocalDev: boolean;
 }
 
 export async function loader({ context, request }: LoaderFunctionArgs) {
   const env = getEnv(context);
   const url = new URL(request.url);
   
+  // LOCAL DEV MODE: No DB binding = use mock data, no setup redirect
+  if (!env.DB) {
+    console.log("📦 Local dev mode: Using mock configuration");
+    return json<LoaderData>({ 
+      branding: configToBranding(mockConfig as any),
+      isLocalDev: true,
+    });
+  }
+  
   // Allow setup route without redirect
   if (url.pathname.startsWith("/setup")) {
-    return json<LoaderData>({ branding: defaultBranding });
+    return json<LoaderData>({ branding: defaultBranding, isLocalDev: false });
   }
   
-  // If no DB, return defaults (local dev without wrangler)
-  if (!env.DB) {
-    return json<LoaderData>({ branding: defaultBranding });
-  }
-  
+  // PRODUCTION: Query D1 database
   const db = getDb(env.DB);
   
   try {
     const configRows = await db.select().from(siteConfig).limit(1);
     const config = configRows[0] || null;
     
-    // Redirect to setup if not configured
+    // Redirect to setup if not configured (production only)
     if (!config || !config.setupComplete) {
       return redirect("/setup");
     }
     
     return json<LoaderData>({ 
-      branding: configToBranding(config)
+      branding: configToBranding(config),
+      isLocalDev: false,
     });
   } catch (error) {
-    // Table might not exist yet
+    // Table might not exist yet - redirect to setup
     console.error("Failed to load config:", error);
-    return json<LoaderData>({ branding: defaultBranding });
+    return redirect("/setup");
   }
 }
 

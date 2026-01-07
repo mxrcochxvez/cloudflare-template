@@ -8,6 +8,7 @@ import { getDb, menuItems, leads, type MenuItem } from "~/lib/db.server";
 import { ServiceCard } from "~/components/ServiceCard";
 import { ContactForm } from "~/components/ContactForm";
 import { useBranding, type BrandingConfig } from "~/context/BrandingContext";
+import { mockMenuItems } from "~/lib/mock-config";
 
 interface LoaderData {
   services: MenuItem[];
@@ -31,10 +32,13 @@ export const meta: MetaFunction = () => {
 export async function loader({ context }: LoaderFunctionArgs) {
   const env = getEnv(context);
   
+  // LOCAL DEV: Use mock data
   if (!env.DB) {
-    return json<LoaderData>({ services: [] });
+    console.log("📦 Local dev mode: Using mock menu items");
+    return json<LoaderData>({ services: mockMenuItems });
   }
   
+  // PRODUCTION: Query D1
   const db = getDb(env.DB);
   
   const services = await db

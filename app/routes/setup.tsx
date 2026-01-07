@@ -14,9 +14,10 @@ export const meta: MetaFunction = () => [
 export async function loader({ context }: LoaderFunctionArgs) {
   const env = getEnv(context);
   
+  // LOCAL DEV: No setup needed, redirect to home
   if (!env.DB) {
-    // No DB - let user proceed with setup instructions
-    return json({ dbAvailable: false });
+    console.log("📦 Local dev mode: Skipping setup wizard");
+    return redirect("/");
   }
   
   const db = getDb(env.DB);
@@ -27,7 +28,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
       return redirect("/");
     }
   } catch {
-    // Table might not exist
+    // Table might not exist - that's fine, show setup
   }
   
   return json({ dbAvailable: true });
@@ -82,9 +83,10 @@ export async function action({ request, context }: ActionFunctionArgs) {
       address: address || null,
       primaryColor: primaryColor || "#0ea5e9",
       secondaryColor: secondaryColor || "#1e293b",
-      resendConfigured: Boolean(formData.get("enableEmail")), // We'll just mark it as configured/requested
+      resendConfigured: Boolean(formData.get("enableEmail")),
       productSchema: productSchema || null,
-      setupComplete: true,
+      // NOT complete - waiting for admin to provision
+      setupComplete: false,
       updatedAt: new Date().toISOString(),
     };
     
@@ -94,7 +96,12 @@ export async function action({ request, context }: ActionFunctionArgs) {
       await db.insert(siteConfig).values(configData);
     }
     
-    return redirect("/");
+    // Redirect to pending page with business info for email
+    const params = new URLSearchParams({
+      name: businessName,
+      email: email || "",
+    });
+    return redirect(`/setup/pending?${params.toString()}`);
   } catch (error) {
     console.error("Setup error:", error);
     return json<ActionData>({ 
