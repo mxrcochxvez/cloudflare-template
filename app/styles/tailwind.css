@@ -1,0 +1,142 @@
+/* Import Inter font from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-sans antialiased text-slate-900 bg-white;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+}
+
+@layer components {
+  /* Button variants */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 
+           font-semibold rounded-lg transition-all duration-200
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white 
+           hover:bg-primary-700 active:bg-primary-800
+           focus-visible:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-slate-100 text-slate-900 
+           hover:bg-slate-200 active:bg-slate-300
+           focus-visible:ring-slate-500;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-primary-600 text-primary-600 bg-transparent
+           hover:bg-primary-50 active:bg-primary-100
+           focus-visible:ring-primary-500;
+  }
+
+  /* Form inputs */
+  .input {
+    @apply w-full px-4 py-3 rounded-lg border border-slate-300
+           bg-white text-slate-900 placeholder:text-slate-400
+           focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20
+           transition-colors duration-200;
+  }
+
+  .input-error {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500/20;
+  }
+
+  /* Card component */
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-slate-200
+           overflow-hidden transition-shadow duration-200
+           hover:shadow-md;
+  }
+
+  /* Container with max-width */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section spacing */
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  /* Heading styles */
+  .heading-1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+  }
+
+  .heading-2 {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+  }
+
+  .heading-3 {
+    @apply text-xl md:text-2xl font-semibold;
+  }
+
+  /* Text styles */
+  .text-body {
+    @apply text-base md:text-lg text-slate-600 leading-relaxed;
+  }
+
+  .text-small {
+    @apply text-sm text-slate-500;
+  }
+
+  /* Badge/Tag */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-700;
+  }
+
+  .badge-success {
+    @apply badge bg-green-100 text-green-700;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-100 text-amber-700;
+  }
+
+  .badge-error {
+    @apply badge bg-red-100 text-red-700;
+  }
+}
+
+@layer utilities {
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-primary-400 
+           bg-clip-text text-transparent;
+  }
+
+  /* Glass effect for overlays */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
