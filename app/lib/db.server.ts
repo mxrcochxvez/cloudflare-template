@@ -1,15 +1,11 @@
-import { drizzle, DrizzleD1Database } from "drizzle-orm/d1";
+import { drizzle } from "drizzle-orm/d1";
 import * as schema from "../../db/schema";
 
-export type Database = DrizzleD1Database<typeof schema>;
+export * from "../../db/schema";
 
 /**
- * Creates a Drizzle ORM instance from the D1 binding
- * Use this in loaders and actions to get typed database access
+ * Create a Drizzle ORM instance from a D1 database binding
  */
-export function getDb(d1: D1Database): Database {
-  return drizzle(d1, { schema });
+export function getDb(db: D1Database) {
+  return drizzle(db, { schema });
 }
-
-// Re-export schema types for convenience
-export * from "../../db/schema";

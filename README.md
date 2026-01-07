@@ -1,184 +1,139 @@
-# EdgeShop - Serverless Consulting Template
+# Cloudflare Template
 
-A production-ready Remix template for tech consulting businesses, optimized for Cloudflare Workers with 0ms cold starts.
-
-## Tech Stack
-
-- **Framework:** [Remix](https://remix.run) (via Vite)
-- **Runtime:** [Cloudflare Workers](https://workers.cloudflare.com)
-- **Database:** [Cloudflare D1](https://developers.cloudflare.com/d1/) (SQLite)
-- **ORM:** [Drizzle ORM](https://orm.drizzle.team)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com)
-- **AI:** [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) (Llama 3)
+A modern, customizable business website template built on Cloudflare's edge platform.
 
 ## Features
 
-- ⚡ **Zero Cold Starts** - Cloudflare Workers edge deployment
-- 🗄️ **Serverless Database** - D1 with Drizzle ORM for type-safe queries
-- 🤖 **AI Integration** - Text polishing API using Llama 3
-- 📱 **Responsive Design** - Mobile-first Tailwind CSS
-- 🔐 **Admin Dashboard** - Manage leads and site configuration
-- 📝 **Contact Form** - Leads captured to D1 database
-- 🎨 **Customizable Branding** - Dynamic primary color and business info
+- **First-Run Setup Wizard** - Configure your site in minutes
+- **AI Layout Assistant** - Generate content from business description
+- **Dynamic Branding** - Change colors, logo, and content from admin
+- **Email Notifications** - Resend integration for lead alerts
+- **Edge Performance** - 0ms cold starts on Cloudflare Workers
+- **Database Included** - D1 for data, no external services needed
 
-## Getting Started
+## Tech Stack
 
-### Prerequisites
+- [Remix](https://remix.run) - Full-stack React framework
+- [Cloudflare Workers](https://workers.cloudflare.com) - Edge runtime
+- [D1](https://developers.cloudflare.com/d1/) - SQLite database
+- [Workers AI](https://developers.cloudflare.com/workers-ai/) - AI generation
+- [Drizzle ORM](https://orm.drizzle.team) - TypeScript ORM
+- [Tailwind CSS](https://tailwindcss.com) - Styling
 
-- [Node.js](https://nodejs.org) >= 20.0.0
-- [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/install-and-update/)
-- A Cloudflare account
+## Quick Start
 
-### Installation
+### 1. Clone & Install
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/edgeshop.git
-cd edgeshop
-
-# Install dependencies
+git clone https://github.com/your-repo/cloudflare-template
+cd cloudflare-template
 npm install
 ```
 
-### Database Setup
-
-1. Create a D1 database:
+### 2. Create D1 Database
 
 ```bash
-wrangler d1 create edgeshop-db
+wrangler d1 create cloudflare-template-db
 ```
 
-2. Copy the database ID from the output and update `wrangler.toml`:
+Copy the `database_id` to `wrangler.toml`.
 
-```toml
-[[d1_databases]]
-binding = "DB"
-database_name = "edgeshop-db"
-database_id = "YOUR_DATABASE_ID_HERE"  # ← Replace this
-```
-
-3. Generate and apply migrations:
+### 3. Run Migrations
 
 ```bash
-# Generate migrations from schema
-npm run db:generate
-
-# Apply migrations locally
 npm run db:migrate
-
-# Apply migrations to production
-npm run db:migrate:prod
 ```
 
-### Development
+### 4. Start Development
 
 ```bash
-# Start the development server
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`.
+Visit `http://localhost:5173/setup` to configure your site.
 
-### Deployment
+## Development
 
-```bash
-# Build the application
-npm run build
-
-# Deploy to Cloudflare Pages
-npm run deploy
-```
+| Command                | Description                  |
+| ---------------------- | ---------------------------- |
+| `npm run dev`          | Start Vite dev server        |
+| `npm run dev:wrangler` | Build + run with Wrangler    |
+| `npm run setup`        | Migrate, seed, and start dev |
+| `npm run seed`         | Seed database with test data |
+| `npm run build`        | Production build             |
+| `npm run deploy`       | Deploy to Cloudflare         |
 
 ## Project Structure
 
 ```
 ├── app/
-│   ├── components/       # Reusable UI components
-│   ├── lib/              # Server utilities (db, env)
-│   ├── routes/           # Remix routes
-│   │   ├── _index.tsx    # Landing page
-│   │   ├── admin.tsx     # Admin layout
-│   │   ├── admin._index.tsx  # Dashboard
-│   │   ├── admin.config.tsx  # Site settings
-│   │   ├── admin.leads.tsx   # Lead management
-│   │   └── api.ai-polish.ts  # AI API endpoint
-│   └── styles/           # Tailwind CSS
+│   ├── components/     # Reusable UI components
+│   ├── context/        # React context (BrandingContext)
+│   ├── lib/            # Server utilities
+│   ├── routes/         # Remix routes
+│   └── styles/         # Tailwind CSS
 ├── db/
-│   └── schema.ts         # Drizzle schema definitions
-├── .workflows/           # AI agent audit workflows
-│   ├── seo-audit.md      # SEO checklist
-│   ├── a11y-check.md     # Accessibility checklist
-│   ├── code-quality.md   # Code quality rules
-│   └── code-review.md    # Code smell detection
-├── drizzle/              # Generated migrations
-├── wrangler.toml         # Cloudflare configuration
-└── drizzle.config.ts     # Drizzle Kit configuration
+│   └── schema.ts       # Drizzle schema
+├── scripts/
+│   ├── seed.ts         # Database seeding
+│   └── seed-data.ts    # Mock data
+└── wrangler.toml       # Cloudflare config
 ```
 
-## Environment Variables
+## Setup Wizard
 
-For Drizzle Kit migrations to production, set these environment variables:
+On first run, the site redirects to `/setup` where you can:
+
+1. **Business Info** - Name, tagline, industry
+2. **Contact** - Email, phone, address
+3. **Branding** - Colors with live preview
+
+## Email Integration (Resend)
+
+To enable lead email notifications:
 
 ```bash
-CLOUDFLARE_ACCOUNT_ID=your_account_id
-CLOUDFLARE_DATABASE_ID=your_database_id
-CLOUDFLARE_D1_TOKEN=your_api_token
+wrangler secret put RESEND_API_KEY
+# Paste your key from resend.com/api-keys
 ```
 
-## API Endpoints
+## AI Content Generation
 
-### POST `/api/ai-polish`
+Uses Workers AI (Llama 3) to generate:
 
-Polish rough text into marketing copy using AI.
+- Taglines
+- Hero headlines
+- Service descriptions
+- SEO descriptions
 
-**Request:**
+Call `/api/ai-generate` with a business description.
 
-```json
-{
-  "text": "We sell good coffee"
+## Customization
+
+### Colors
+
+Colors are stored in `site_config` and applied via CSS custom properties:
+
+```css
+:root {
+  --color-primary: #0ea5e9;
+  --color-secondary: #1e293b;
 }
 ```
 
-**Response:**
+### Templates
 
-```json
-{
-  "polished": "Experience our artisanal, hand-crafted coffee...",
-  "originalLength": 19,
-  "polishedLength": 48
-}
+Industry presets in `app/lib/presets.ts` provide starting points.
+
+## Deployment
+
+```bash
+# Set production secrets
+wrangler secret put RESEND_API_KEY
+
+# Deploy
+npm run deploy
 ```
-
-## Admin Access
-
-Visit `/admin` to access the admin dashboard. In development mode, authentication is bypassed.
-
-> ⚠️ **Production Note:** Implement proper authentication before deploying. Consider using [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/applications/configure-apps/) for zero-trust security.
-
-## Agentic Workflows
-
-The `.workflows/` directory contains markdown checklists for AI agents to audit the codebase:
-
-| Workflow          | Purpose                                  |
-| ----------------- | ---------------------------------------- |
-| `seo-audit.md`    | SEO best practices verification          |
-| `a11y-check.md`   | WCAG 2.1 AA accessibility compliance     |
-| `code-quality.md` | TypeScript strictness and best practices |
-| `code-review.md`  | Code smell and antipattern detection     |
-
-## Scripts
-
-| Script                    | Description                    |
-| ------------------------- | ------------------------------ |
-| `npm run dev`             | Start development server       |
-| `npm run build`           | Build for production           |
-| `npm run deploy`          | Deploy to Cloudflare           |
-| `npm run typecheck`       | Run TypeScript checks          |
-| `npm run lint`            | Run ESLint                     |
-| `npm run db:generate`     | Generate Drizzle migrations    |
-| `npm run db:migrate`      | Apply migrations locally       |
-| `npm run db:migrate:prod` | Apply migrations to production |
-| `npm run db:studio`       | Open Drizzle Studio            |
 
 ## License
 

@@ -6,12 +6,17 @@ import {
   ScrollRestoration,
   useRouteError,
   isRouteErrorResponse,
+  useLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
+import type { LinksFunction, MetaFunction, LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { json, redirect } from "@remix-run/cloudflare";
 
 import styles from "~/styles/tailwind.css?url";
 import { Navbar } from "~/components/Navbar";
 import { Footer } from "~/components/Footer";
+import { getEnv } from "~/lib/env.server";
+import { getDb, siteConfig } from "~/lib/db.server";
+import { BrandingProvider, configToBranding, defaultBranding, type BrandingConfig } from "~/context/BrandingContext";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -19,23 +24,75 @@ export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
 ];
 
-export const meta: MetaFunction = () => [
-  { charSet: "utf-8" },
-  { name: "viewport", content: "width=device-width, initial-scale=1" },
-  { title: "Hexacomb | Building Your Digital Hive" },
-  { 
-    name: "description", 
-    content: "Hexacomb builds efficient, scalable technology solutions for small businesses. Web development, cloud solutions, and AI integration." 
-  },
-  // Open Graph
-  { property: "og:type", content: "website" },
-  { property: "og:title", content: "Hexacomb" },
-  { property: "og:description", content: "Building efficient, scalable technology solutions for your business." },
-  // Twitter Card
-  { name: "twitter:card", content: "summary_large_image" },
-  // Theme color (honey gold)
-  { name: "theme-color", content: "#f59e0b" },
-];
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const branding = data?.branding || defaultBranding;
+  
+  return [
+    { charSet: "utf-8" },
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { title: `${branding.businessName}${branding.tagline ? ` | ${branding.tagline}` : ""}` },
+    { 
+      name: "description", 
+      content: branding.seoDescription || branding.description || `Welcome to ${branding.businessName}`
+    },
+    { property: "og:type", content: "website" },
+    { property: "og:title", content: branding.businessName },
+    { property: "og:description", content: branding.seoDescription || branding.description || "" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "theme-color", content: branding.primaryColor },
+  ];
+};
+
+interface LoaderData {
+  branding: BrandingConfig;
+}
+
+export async function loader({ context, request }: LoaderFunctionArgs) {
+  const env = getEnv(context);
+  const url = new URL(request.url);
+  
+  // Allow setup route without redirect
+  if (url.pathname.startsWith("/setup")) {
+    return json<LoaderData>({ branding: defaultBranding });
+  }
+  
+  // If no DB, return defaults (local dev without wrangler)
+  if (!env.DB) {
+    return json<LoaderData>({ branding: defaultBranding });
+  }
+  
+  const db = getDb(env.DB);
+  
+  try {
+    const configRows = await db.select().from(siteConfig).limit(1);
+    const config = configRows[0] || null;
+    
+    // Redirect to setup if not configured
+    if (!config || !config.setupComplete) {
+      return redirect("/setup");
+    }
+    
+    return json<LoaderData>({ 
+      branding: configToBranding(config)
+    });
+  } catch (error) {
+    // Table might not exist yet
+    console.error("Failed to load config:", error);
+    return json<LoaderData>({ branding: defaultBranding });
+  }
+}
+
+/**
+ * Generate CSS custom properties from branding config
+ */
+function generateThemeStyles(branding: BrandingConfig): string {
+  return `
+    :root {
+      --color-primary: ${branding.primaryColor};
+      --color-secondary: ${branding.secondaryColor};
+    }
+  `;
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -54,14 +111,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { branding } = useLoaderData<typeof loader>();
+  
   return (
-    <>
+    <BrandingProvider config={branding}>
+      <style dangerouslySetInnerHTML={{ __html: generateThemeStyles(branding) }} />
       <Navbar />
       <main className="flex-1">
-        <Outlet />
+        <Outlet context={{ branding }} />
       </main>
       <Footer />
-    </>
+    </BrandingProvider>
   );
 }
 

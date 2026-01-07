@@ -95,7 +95,7 @@ function LeadRow({ lead }: { lead: Lead }) {
         <StatusBadge status={lead.status} />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-        {new Date(lead.createdAt).toLocaleDateString()}
+        {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : "N/A"}
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <Form method="post" className="flex gap-2">

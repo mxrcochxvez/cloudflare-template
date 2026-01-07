@@ -1,4 +1,4 @@
-/* Import Inter font from Google Fonts */
+/* Import Inter font */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 @tailwind base;
@@ -6,6 +6,11 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-primary: #0ea5e9;
+    --color-secondary: #1e293b;
+  }
+  
   html {
     @apply scroll-smooth;
   }
@@ -14,14 +19,12 @@
     @apply font-sans antialiased text-slate-900 bg-white;
   }
 
-  /* Focus styles for accessibility */
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-primary-500;
   }
 }
 
 @layer components {
-  /* Button variants - Hexacomb warm gold theme */
   .btn {
     @apply inline-flex items-center justify-center px-6 py-3 
            font-semibold rounded-lg transition-all duration-200
@@ -29,7 +32,7 @@
   }
 
   .btn-primary {
-    @apply btn bg-primary-500 text-slate-900 
+    @apply btn bg-primary-500 text-white 
            hover:bg-primary-400 active:bg-primary-600
            focus-visible:ring-primary-500 shadow-md hover:shadow-lg;
   }
@@ -46,36 +49,31 @@
            focus-visible:ring-primary-500;
   }
 
-  /* Form inputs */
   .input {
     @apply w-full px-4 py-3 rounded-lg border border-slate-300
            bg-white text-slate-900 placeholder:text-slate-400
-           focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20
+           focus:border-primary-500 focus:ring-2 focus:ring-primary-200
            transition-colors duration-200;
   }
 
   .input-error {
-    @apply border-red-500 focus:border-red-500 focus:ring-red-500/20;
+    @apply border-red-500 focus:border-red-500 focus:ring-red-200;
   }
 
-  /* Card component - with subtle honeycomb hover */
   .card {
     @apply bg-white rounded-xl shadow-sm border border-slate-200
            overflow-hidden transition-all duration-200
-           hover:shadow-md hover:border-primary-200;
+           hover:shadow-md hover:border-slate-300;
   }
 
-  /* Container with max-width */
   .container-custom {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Section spacing */
   .section {
     @apply py-16 md:py-24;
   }
 
-  /* Heading styles */
   .heading-1 {
     @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
   }
@@ -88,7 +86,6 @@
     @apply text-xl md:text-2xl font-semibold;
   }
 
-  /* Text styles */
   .text-body {
     @apply text-base md:text-lg text-slate-600 leading-relaxed;
   }
@@ -97,7 +94,6 @@
     @apply text-sm text-slate-500;
   }
 
-  /* Badge/Tag - Hexacomb honey theme */
   .badge {
     @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
   }
@@ -120,28 +116,7 @@
 }
 
 @layer utilities {
-  /* Gradient text - warm honey gradient */
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary-500 via-primary-400 to-yellow-300 
-           bg-clip-text text-transparent;
-  }
-
-  /* Glass effect for overlays */
   .glass {
     @apply bg-white/80 backdrop-blur-md;
-  }
-
-  /* Honeycomb pattern background */
-  .bg-honeycomb {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23fbbf24' fill-opacity='0.1'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  /* Hide scrollbar but keep functionality */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
   }
 }
