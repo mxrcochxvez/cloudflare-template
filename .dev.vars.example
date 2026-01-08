@@ -1,10 +1,12 @@
-# Development environment variables
-# Copy this to .dev.vars for local development
+# For local development, copy this file to .dev.vars
+# These environment variables are used during `npm run dev`
 
-# These are automatically available via wrangler
-# No need to set them manually for local dev
+# Database is configured in wrangler.toml, not here
+# See wrangler.toml for D1 database binding configuration
 
-# For Drizzle Kit migrations to production, set:
-# CLOUDFLARE_ACCOUNT_ID=your_account_id
-# CLOUDFLARE_DATABASE_ID=your_database_id  
-# CLOUDFLARE_D1_TOKEN=your_api_token
+# Optional: Resend API key for email functionality
+# Get your key at https://resend.com
+# RESEND_API_KEY=re_xxxxxxxxxxxx
+
+# Optional: Any other secrets your app needs
+# MY_SECRET_KEY=your-secret-here

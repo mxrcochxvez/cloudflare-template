@@ -4,16 +4,36 @@ compatibility_flags = ["nodejs_compat"]
 main = "./build/server/index.js"
 assets = { directory = "./build/client" }
 
-# D1 Database binding
-[[d1_databases]]
-binding = "DB"
-database_name = "cloudflare-template-db"
-database_id = "YOUR_DATABASE_ID_HERE"
+# ============================================================================
+# D1 DATABASE CONFIGURATION
+# ============================================================================
+# To enable database functionality:
+#
+# 1. Create a D1 database:
+#    wrangler d1 create my-database
+#
+# 2. Copy the database_id from the output and paste it below
+#
+# 3. Uncomment the following lines:
 
-# Workers AI binding
-[ai]
-binding = "AI"
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
-# Environment variables (for production, set these in Cloudflare Dashboard)
+# ============================================================================
+# WORKERS AI (Optional)
+# ============================================================================
+# Uncomment to enable AI features:
+
+# [ai]
+# binding = "AI"
+
+# ============================================================================
+# ENVIRONMENT VARIABLES
+# ============================================================================
+# For development, use .dev.vars file
+# For production, set secrets via: wrangler secret put SECRET_NAME
+
 [vars]
 ENVIRONMENT = "development"

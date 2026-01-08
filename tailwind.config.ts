@@ -1,24 +1,56 @@
 import type { Config } from "tailwindcss";
 
 export default {
+  darkMode: ["class"],
   content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
-        // Primary color uses CSS custom property for dynamic theming
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          50: "color-mix(in srgb, var(--color-primary, #0ea5e9) 5%, white)",
-          100: "color-mix(in srgb, var(--color-primary, #0ea5e9) 10%, white)",
-          200: "color-mix(in srgb, var(--color-primary, #0ea5e9) 20%, white)",
-          300: "color-mix(in srgb, var(--color-primary, #0ea5e9) 40%, white)",
-          400: "color-mix(in srgb, var(--color-primary, #0ea5e9) 60%, white)",
-          500: "var(--color-primary, #0ea5e9)",
-          600: "color-mix(in srgb, var(--color-primary, #0ea5e9) 90%, black)",
-          700: "color-mix(in srgb, var(--color-primary, #0ea5e9) 80%, black)",
-          800: "color-mix(in srgb, var(--color-primary, #0ea5e9) 70%, black)",
-          900: "color-mix(in srgb, var(--color-primary, #0ea5e9) 60%, black)",
-          950: "color-mix(in srgb, var(--color-primary, #0ea5e9) 40%, black)",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
         sans: [
@@ -32,7 +64,21 @@ export default {
           "Noto Color Emoji",
         ],
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;

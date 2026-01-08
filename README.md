@@ -1,123 +1,213 @@
-# Cloudflare Template
+# ⚡ Cloudflare Remix Template
 
-A modern, customizable business website template built on Cloudflare's edge platform.
+A stunning, production-ready GitHub template for building modern web applications with **Remix**, **Cloudflare Workers**, and a beautiful **shadcn-style** component library.
 
-## Features
+![Remix](https://img.shields.io/badge/Remix-2.15-blue?style=flat-square)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-Workers-orange?style=flat-square)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=flat-square)
+![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat-square)
 
-- **First-Run Setup Wizard** - Configure your site in minutes (production only)
-- **Provisioning Handoff** - Setup generates email with commands for admin
-- **Admin Confirmation** - `/admin/provision` to activate the site
-- **Local Dev Mode** - Mock data for testing without DB
-- **AI Layout Assistant** - Generate content from business description
-- **Dynamic Branding** - Change colors, logo, and content
-- **Email Notifications** - Resend integration for lead alerts
+## ✨ Features
 
-## Tech Stack
+- **🎨 19+ UI Components** - Beautiful, accessible components built on Radix UI
+- **⚡ Edge Deployment** - Deploy globally on Cloudflare Workers
+- **🗃️ Drizzle ORM** - Type-safe database queries with D1
+- **🌙 Dark Mode** - Light and dark themes with CSS variables
+- **📱 Responsive** - Mobile-first design throughout
+- **🔒 Type Safe** - Full TypeScript with strict mode
+- **📊 Admin Dashboard** - Ready-to-customize admin interface
 
-- [Remix](https://remix.run) - Full-stack React framework
-- [Cloudflare Workers](https://workers.cloudflare.com) - Edge runtime
-- [D1](https://developers.cloudflare.com/d1/) - SQLite database
-- [Workers AI](https://developers.cloudflare.com/workers-ai/) - AI generation
-- [Drizzle ORM](https://orm.drizzle.team) - TypeScript ORM
-- [Tailwind CSS](https://tailwindcss.com) - Styling
+## 🚀 Quick Start
 
-## Quick Start
+### 1. Use This Template
 
-### Local Development (Mock Data)
+Click "Use this template" on GitHub, or:
 
 ```bash
+git clone https://github.com/mxrcochxvez/cloudflare-template.git my-app
+cd my-app
 npm install
+```
+
+### 2. Start Development
+
+```bash
 npm run dev
 ```
 
-This runs with **mock data** - no database needed. You'll see a demo site with "Acme Corporation" branding.
+Visit [http://localhost:5173](http://localhost:5173)
 
-### Production Deployment
+### 3. Deploy to Cloudflare
 
-1. **Deploy to Cloudflare**:
+```bash
+npm run deploy
+```
 
-   ```bash
-   npm run deploy
-   ```
-
-2. **Customer completes Setup Wizard** at `/setup`
-
-3. **Customer clicks "Send Provisioning Request"** - opens email with commands
-
-4. **Admin runs commands**:
-
-   ```bash
-   # Create database
-   wrangler d1 create cloudflare-template-db
-
-   # Update wrangler.toml with database_id
-
-   # Run migrations
-   wrangler d1 execute cloudflare-template-db --remote --file=./drizzle/0000_initial.sql
-
-   # (Optional) Set email API key
-   wrangler secret put RESEND_API_KEY
-   ```
-
-5. **Admin confirms** at `/admin/provision`
-
-6. **Site goes live!**
-
-## Development
-
-| Command                | Description                               |
-| ---------------------- | ----------------------------------------- |
-| `npm run dev`          | Start with mock data (local testing)      |
-| `npm run dev:wrangler` | Start with D1 binding (test setup wizard) |
-| `npm run build`        | Production build                          |
-| `npm run deploy`       | Deploy to Cloudflare                      |
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── app/
-│   ├── components/     # UI components
-│   ├── context/        # BrandingContext
-│   ├── lib/            # Server utilities, mock data
-│   ├── routes/
-│   │   ├── setup.tsx         # Setup wizard
-│   │   ├── setup.pending.tsx # Waiting for provisioning
-│   │   ├── admin.provision.tsx # Admin confirmation
-│   │   └── _index.tsx        # Landing page
-│   └── styles/
+│   ├── components/
+│   │   └── ui/           # shadcn-style components
+│   ├── lib/              # Utilities & database
+│   ├── routes/           # Remix routes
+│   │   ├── _index.tsx    # Landing page
+│   │   ├── admin.tsx     # Admin layout
+│   │   └── admin.*.tsx   # Admin pages
+│   └── styles/           # CSS & Tailwind
 ├── db/
-│   └── schema.ts       # Drizzle schema
-└── wrangler.toml       # Cloudflare config
+│   └── schema.ts         # Drizzle ORM schema
+├── wrangler.toml         # Cloudflare config
+└── package.json
 ```
 
-## Flow Diagram
+## 🎨 Component Library
 
+All components are in `app/components/ui/`. They follow shadcn conventions—copy, paste, and own your code.
+
+### Primitives
+
+- `Button` - 6 variants, 4 sizes
+- `Card` - Header, Title, Description, Content, Footer
+- `Input` - Styled with focus states
+- `Badge` - 6 variants including success/warning
+- `Avatar` - Image with fallback
+- `Skeleton` - Loading placeholders
+
+### Layout
+
+- `Container` - Responsive max-width wrapper
+- `Section` - Page sections with variants
+- `Hero` - Full-width hero sections
+- `Grid` - Responsive grid layouts
+
+### Feedback
+
+- `Alert` - Info, success, warning, error
+- `Dialog` - Modal dialogs
+
+### Navigation
+
+- `Tabs` - Radix-based tabs
+- `Navbar` - Site navigation
+- `Sidebar` - Admin sidebar
+
+## 🗃️ Database Setup
+
+This template uses Drizzle ORM with Cloudflare D1. The database is **not configured by default**—follow these steps:
+
+### 1. Create a D1 Database
+
+```bash
+wrangler d1 create my-database
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Customer  │     │    Admin    │     │    Site     │
-│  completes  │────▶│   gets      │────▶│   goes      │
-│   /setup    │     │   email     │     │   live      │
-└─────────────┘     └─────────────┘     └─────────────┘
-                           │
-                    Runs wrangler
-                    commands, then
-                    /admin/provision
+
+### 2. Update wrangler.toml
+
+Copy the `database_id` from step 1 and uncomment the D1 config:
+
+```toml
+[[d1_databases]]
+binding = "DB"
+database_name = "my-database"
+database_id = "your-database-id-here"
 ```
 
-## Configuration
+### 3. Define Your Schema
 
-### Admin Email
-
-Edit `app/routes/setup.pending.tsx`:
+Edit `db/schema.ts`:
 
 ```typescript
-const ADMIN_EMAIL = "your-email@example.com";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+
+export const posts = sqliteTable("posts", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  content: text("content"),
+});
 ```
 
-### Mock Data
+### 4. Generate & Apply Migrations
 
-Edit `app/lib/mock-config.ts` to customize local development data.
+```bash
+# Generate migrations from schema
+npm run db:generate
 
-## License
+# Apply to local database
+npm run db:migrate
 
-MIT
+# Apply to production
+npm run db:migrate:prod
+```
+
+### 5. Query Your Database
+
+```typescript
+import { getDb, posts } from "~/lib/db.server";
+
+export async function loader({ context }: LoaderFunctionArgs) {
+  const db = getDb(context.cloudflare.env.DB);
+  const allPosts = await db.select().from(posts);
+  return json({ posts: allPosts });
+}
+```
+
+## 🛠️ Development Scripts
+
+| Command                   | Description                     |
+| ------------------------- | ------------------------------- |
+| `npm run dev`             | Start dev server                |
+| `npm run build`           | Build for production            |
+| `npm run deploy`          | Build and deploy to Cloudflare  |
+| `npm run db:generate`     | Generate migrations from schema |
+| `npm run db:migrate`      | Apply migrations locally        |
+| `npm run db:migrate:prod` | Apply migrations to production  |
+| `npm run db:studio`       | Open Drizzle Studio             |
+
+## 🎯 Customization
+
+### Colors
+
+Edit CSS variables in `app/styles/tailwind.css`:
+
+```css
+:root {
+  --primary: 199 89% 48%;
+  --secondary: 210 40% 96.1%;
+  /* ... */
+}
+```
+
+### Components
+
+All components in `app/components/ui/` are yours to modify. They use:
+
+- **class-variance-authority** for variants
+- **tailwind-merge** for class merging
+- **Radix UI** for accessibility
+
+### Adding Components
+
+Need more components? Visit [ui.shadcn.com](https://ui.shadcn.com) and adapt components for Remix (change `@/` imports to `~/`).
+
+## 📝 Environment Variables
+
+For development, create `.dev.vars`:
+
+```
+RESEND_API_KEY=re_xxxxxxxxxxxx
+```
+
+For production, use Wrangler:
+
+```bash
+wrangler secret put RESEND_API_KEY
+```
+
+## 📄 License
+
+MIT © Your Name
+
+---
+
+**Made with ❤️ for the Cloudflare + Remix community**
