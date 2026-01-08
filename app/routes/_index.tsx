@@ -1,11 +1,11 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
-import { 
-  Zap, 
-  Database, 
-  Palette, 
-  Shield, 
-  ArrowRight, 
+import {
+  Zap,
+  Database,
+  Palette,
+  Shield,
+  ArrowRight,
   Layers,
   Globe,
   Code2,
@@ -29,13 +29,14 @@ import { Input } from "~/components/ui/input";
 import { Alert, AlertTitle, AlertDescription } from "~/components/ui/alert";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Separator } from "~/components/ui/separator";
+import { DeveloperSpeedComparison } from "~/components/ui/speed-comparison";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Cloudflare Remix Template | Build Beautiful Apps at the Edge" },
-    { 
-      name: "description", 
-      content: "A stunning, production-ready template for building modern web applications with Remix, Cloudflare Workers, and a beautiful component library." 
+    {
+      name: "description",
+      content: "A stunning, production-ready template for building modern web applications with Remix, Cloudflare Workers, and a beautiful component library."
     },
   ];
 };
@@ -47,10 +48,10 @@ export default function Index() {
           CHAPTER 1: THE VISION
           An immersive hero that captures imagination
       ======================================================================== */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-24">
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-12">
         {/* Deep space background */}
         <div className="absolute inset-0 bg-slate-950" />
-        
+
         {/* Stars field */}
         <div className="absolute inset-0">
           {/* Small stars */}
@@ -120,7 +121,7 @@ export default function Index() {
 
             {/* Poetic subtitle */}
             <p className="text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
-              A meticulously designed foundation for crafting exceptional web experiences. 
+              A meticulously designed foundation for crafting exceptional web experiences.
               Built for dreamers, designed for builders.
             </p>
 
@@ -144,7 +145,7 @@ export default function Index() {
             <div className="relative max-w-3xl mx-auto">
               {/* Glowing frame */}
               <div className="absolute -inset-1 bg-gradient-to-r from-violet-500/50 via-fuchsia-500/50 to-cyan-500/50 rounded-2xl blur-xl opacity-50" />
-              
+
               {/* Browser mockup */}
               <div className="relative bg-slate-900/90 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
                 {/* Browser chrome */}
@@ -160,7 +161,7 @@ export default function Index() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Preview content */}
                 <div className="p-6 space-y-4">
                   <div className="flex gap-4">
@@ -194,7 +195,7 @@ export default function Index() {
       <Section size="xl" className="relative overflow-hidden">
         {/* Subtle background texture */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
-        
+
         <Container className="relative">
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
@@ -207,7 +208,7 @@ export default function Index() {
               <span className="text-primary">principles</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Every decision was intentional. Every component, crafted with purpose. 
+              Every decision was intentional. Every component, crafted with purpose.
               This isn't just a template—it's a foundation for excellence.
             </p>
           </div>
@@ -261,12 +262,121 @@ export default function Index() {
       </Section>
 
       {/* =====================================================================
+          CHAPTER 2.5: AI AGENT RULES
+          Built-in AI assistance for developers
+      ======================================================================== */}
+      <Section size="xl" className="relative overflow-hidden">
+        {/* Space background */}
+        <div className="absolute inset-0 bg-slate-950" />
+
+        {/* Stars field */}
+        <div className="absolute inset-0">
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={`agent-star-${i}`}
+              className="absolute w-px h-px bg-white rounded-full"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                opacity: 0.3 + Math.random() * 0.5,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Nebula accents */}
+        <div className="absolute top-1/4 right-0 w-80 h-80 bg-emerald-900/20 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-cyan-900/20 rounded-full blur-[80px]" />
+
+        <Container className="relative">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-medium mb-6 backdrop-blur-sm border border-emerald-500/20">
+              <Cpu className="w-4 h-4" />
+              AI-Powered Development
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-white">
+              Built for
+              <br />
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">AI agents</span>
+            </h2>
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              This template includes pre-configured AI agent rules to help your favorite AI coding assistant understand your project better.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <Card className="bg-slate-900/80 backdrop-blur-xl border-white/10 overflow-hidden">
+              {/* Terminal header */}
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-slate-800/50">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                </div>
+                <div className="flex-1 text-center">
+                  <span className="text-xs text-slate-400 font-mono">.agent/rules/</span>
+                </div>
+              </div>
+
+              <CardContent className="p-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Rule files list */}
+                  <div className="space-y-3">
+                    <p className="text-sm font-medium text-slate-300 mb-4">Included rule files:</p>
+                    {[
+                      { name: "planning.md", desc: "Feature planning workflow" },
+                      { name: "code-review.md", desc: "Code review guidelines" },
+                      { name: "code-quality.md", desc: "Quality standards" },
+                      { name: "architecture-review.md", desc: "Architecture patterns" },
+                      { name: "a11y-check.md", desc: "Accessibility checks" },
+                      { name: "seo-audit.md", desc: "SEO best practices" },
+                      { name: "error-logging.md", desc: "Error handling patterns" },
+                    ].map((file) => (
+                      <div key={file.name} className="flex items-center gap-3 text-sm">
+                        <Code2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                        <span className="text-white font-mono">{file.name}</span>
+                        <span className="text-slate-500">— {file.desc}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* IDE compatibility */}
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium text-slate-300">Works with your favorite AI IDE:</p>
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-lg bg-slate-800/50 border border-white/5">
+                        <p className="text-white font-medium text-sm mb-1">Google Gemini CLI / Jules</p>
+                        <code className="text-xs text-emerald-400 font-mono">.agent/rules/</code>
+                      </div>
+                      <div className="p-3 rounded-lg bg-slate-800/50 border border-white/5">
+                        <p className="text-white font-medium text-sm mb-1">Cursor / Windsurf</p>
+                        <code className="text-xs text-cyan-400 font-mono">.cursor/rules/ or .windsurfrules</code>
+                      </div>
+                      <div className="p-3 rounded-lg bg-slate-800/50 border border-white/5">
+                        <p className="text-white font-medium text-sm mb-1">GitHub Copilot</p>
+                        <code className="text-xs text-violet-400 font-mono">.github/copilot-instructions.md</code>
+                      </div>
+                    </div>
+                    <Alert variant="info" className="bg-slate-800/50 border-cyan-500/30">
+                      <AlertDescription className="text-slate-300 text-sm">
+                        Simply rename the <code className="text-cyan-400">.agent</code> folder to match your IDE's convention!
+                      </AlertDescription>
+                    </Alert>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </Container>
+      </Section>
+
+      {/* =====================================================================
           CHAPTER 3: THE TOOLKIT
           Interactive component showcase
       ======================================================================== */}
       <Section id="components" variant="muted" size="xl" className="relative overflow-hidden scroll-mt-20">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
-        
+
         <Container className="relative">
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
@@ -279,25 +389,25 @@ export default function Index() {
               <span className="text-primary">tell stories</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              19+ carefully crafted components. Each one designed to help you build 
+              19+ carefully crafted components. Each one designed to help you build
               interfaces that connect with your users on a deeper level.
             </p>
           </div>
 
           {/* Story-driven component showcase */}
           <div className="space-y-24">
-            
+
             {/* STORY 1: The Launch Moment */}
             <div>
               <div className="text-center mb-12">
                 <Badge variant="outline" className="mb-4">Story 1</Badge>
                 <h3 className="text-2xl md:text-3xl font-bold mb-3">The Launch Moment</h3>
                 <p className="text-muted-foreground max-w-xl mx-auto">
-                  Your app is ready. With one click, you deploy to the edge. 
+                  Your app is ready. With one click, you deploy to the edge.
                   Here's what that moment looks like.
                 </p>
               </div>
-              
+
               <Card className="max-w-2xl mx-auto">
                 <div className="bg-slate-900 p-6 border-b">
                   <div className="flex items-center gap-3 mb-4">
@@ -353,7 +463,7 @@ export default function Index() {
                   Every great product is built by a team. Here's how you showcase yours.
                 </p>
               </div>
-              
+
               <Grid cols={3} gap="lg" className="max-w-4xl mx-auto">
                 <ComponentDemo name="Card">
                   <Card className="text-center">
@@ -406,11 +516,11 @@ export default function Index() {
                 <Badge variant="outline" className="mb-4">Story 3</Badge>
                 <h3 className="text-2xl md:text-3xl font-bold mb-3">The Customer Journey</h3>
                 <p className="text-muted-foreground max-w-xl mx-auto">
-                  A user discovers your product, signs up, and becomes a customer. 
+                  A user discovers your product, signs up, and becomes a customer.
                   Every touchpoint matters.
                 </p>
               </div>
-              
+
               <div className="max-w-xl mx-auto space-y-6">
                 <ComponentDemo name="Alert variant='info'">
                   <Alert variant="info">
@@ -420,7 +530,7 @@ export default function Index() {
                     </AlertDescription>
                   </Alert>
                 </ComponentDemo>
-                
+
                 <ComponentDemo name="Card + Input + Button">
                   <Card>
                     <CardHeader>
@@ -443,7 +553,7 @@ export default function Index() {
                     </CardContent>
                   </Card>
                 </ComponentDemo>
-                
+
                 <ComponentDemo name="Alert variant='success'">
                   <Alert variant="success">
                     <AlertTitle>You're in! 🚀</AlertTitle>
@@ -464,7 +574,7 @@ export default function Index() {
                   Your users log in and see their data. Make it beautiful.
                 </p>
               </div>
-              
+
               <Card className="max-w-4xl mx-auto">
                 <CardHeader className="border-b">
                   <div className="flex items-center justify-between">
@@ -522,43 +632,71 @@ export default function Index() {
       </Section>
 
       {/* =====================================================================
-          CHAPTER 4: THE PROOF
-          Social proof and testimonials
+          CHAPTER 4: SHIP FASTER
+          Speed comparison visualization
       ======================================================================== */}
-      <Section size="xl">
-        <Container>
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              <Heart className="w-4 h-4" />
-              Loved by Builders
+      <Section size="xl" className="relative overflow-hidden">
+        {/* Space background */}
+        <div className="absolute inset-0 bg-slate-950" />
+
+        {/* Stars field */}
+        <div className="absolute inset-0">
+          {[...Array(60)].map((_, i) => (
+            <div
+              key={`speed-star-${i}`}
+              className="absolute w-px h-px bg-white rounded-full"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                opacity: 0.3 + Math.random() * 0.5,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Nebula accents */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-900/20 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-violet-900/20 rounded-full blur-[80px]" />
+
+        <Container className="relative">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-cyan-400 text-sm font-medium mb-6 backdrop-blur-sm border border-white/10">
+              <Zap className="w-4 h-4" />
+              Ship Faster
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              What creators
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-white">
+              Launch at
               <br />
-              <span className="text-primary">are saying</span>
+              <span className="bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">warp speed</span>
             </h2>
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              Stop wrestling with configuration. Start building your product.
+            </p>
           </div>
 
-          <Grid cols={3} gap="lg">
-            <TestimonialCard
-              quote="This template saved me weeks of setup. The components are gorgeous and the DX is unmatched."
-              author="Sarah Chen"
-              role="Full Stack Developer"
-              avatar="SC"
-            />
-            <TestimonialCard
-              quote="Finally, a Cloudflare template that feels premium. Production-ready from the first commit."
-              author="Marcus Johnson"
-              role="Engineering Lead"
-              avatar="MJ"
-            />
-            <TestimonialCard
-              quote="The attention to design detail is remarkable. Every component feels crafted with intention."
-              author="Emily Rodriguez"
-              role="Design Engineer"
-              avatar="ER"
-            />
-          </Grid>
+          <div className="max-w-2xl mx-auto">
+            <Card className="bg-slate-900/80 backdrop-blur-xl border-white/10">
+              <CardContent className="pt-8 pb-8">
+                <DeveloperSpeedComparison />
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Stats row */}
+          <div className="mt-12 grid grid-cols-3 gap-8 max-w-2xl mx-auto text-center">
+            <div>
+              <p className="text-3xl font-bold text-white">5 min</p>
+              <p className="text-sm text-slate-400">To first deploy</p>
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-white">19+</p>
+              <p className="text-sm text-slate-400">UI Components</p>
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-white">300+</p>
+              <p className="text-sm text-slate-400">Edge locations</p>
+            </div>
+          </div>
         </Container>
       </Section>
 
@@ -567,13 +705,44 @@ export default function Index() {
           Final call to action
       ======================================================================== */}
       <Section size="xl" className="relative overflow-hidden">
-        {/* Epic gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-500/20 via-transparent to-transparent" />
-        
-        {/* Floating elements */}
-        <div className="absolute top-20 right-20 w-64 h-64 bg-fuchsia-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl" />
+        {/* Deep space background */}
+        <div className="absolute inset-0 bg-slate-950" />
+
+        {/* Stars field */}
+        <div className="absolute inset-0">
+          {[...Array(80)].map((_, i) => (
+            <div
+              key={`cta-star-${i}`}
+              className="absolute w-px h-px bg-white rounded-full"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                opacity: 0.3 + Math.random() * 0.7,
+              }}
+            />
+          ))}
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={`cta-star-m-${i}`}
+              className="absolute w-0.5 h-0.5 bg-white rounded-full animate-pulse"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Nebula effects */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-violet-900/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-fuchsia-900/15 rounded-full blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cyan-900/10 rounded-full blur-[80px]" />
+
+        {/* Floating planets */}
+        <div className="absolute top-20 right-[15%] w-12 h-12 rounded-full bg-slate-700 shadow-[inset_-3px_-3px_8px_rgba(0,0,0,0.8),inset_1px_1px_4px_rgba(255,255,255,0.1)]" />
+        <div className="absolute bottom-32 left-[10%] w-6 h-6 rounded-full bg-slate-600 shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.8)]" />
 
         <Container className="relative">
           <div className="max-w-3xl mx-auto text-center">
@@ -616,11 +785,11 @@ export default function Index() {
 // ============================================================================
 
 // Tooltip wrapper for showcasing component names
-function ComponentDemo({ 
-  name, 
-  children 
-}: { 
-  name: string; 
+function ComponentDemo({
+  name,
+  children
+}: {
+  name: string;
   children: React.ReactNode;
 }) {
   return (
