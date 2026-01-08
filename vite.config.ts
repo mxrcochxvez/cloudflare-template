@@ -14,6 +14,7 @@ export default defineConfig({
   plugins: [
     remix({
       ssr: process.env.GH_PAGES !== "true", // SPA Mode only for GitHub Pages
+      basename: process.env.GH_PAGES === "true" ? "/cloudflare-template/" : "/",
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
