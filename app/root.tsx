@@ -6,110 +6,32 @@ import {
   ScrollRestoration,
   useRouteError,
   isRouteErrorResponse,
-  useLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction, MetaFunction, LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { json, redirect } from "@remix-run/cloudflare";
+import type { LinksFunction } from "@remix-run/cloudflare";
 
 import styles from "~/styles/tailwind.css?url";
-import { Navbar } from "~/components/Navbar";
-import { Footer } from "~/components/Footer";
-import { getEnv } from "~/lib/env.server";
-import { getDb, siteConfig } from "~/lib/db.server";
-import { BrandingProvider, configToBranding, defaultBranding, type BrandingConfig } from "~/context/BrandingContext";
-import { mockConfig } from "~/lib/mock-config";
+import { Navbar } from "~/components/ui/navbar";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
+  },
 ];
-
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const branding = data?.branding || defaultBranding;
-  
-  return [
-    { charSet: "utf-8" },
-    { name: "viewport", content: "width=device-width, initial-scale=1" },
-    { title: `${branding.businessName}${branding.tagline ? ` | ${branding.tagline}` : ""}` },
-    { 
-      name: "description", 
-      content: branding.seoDescription || branding.description || `Welcome to ${branding.businessName}`
-    },
-    { property: "og:type", content: "website" },
-    { property: "og:title", content: branding.businessName },
-    { property: "og:description", content: branding.seoDescription || branding.description || "" },
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "theme-color", content: branding.primaryColor },
-  ];
-};
-
-interface LoaderData {
-  branding: BrandingConfig;
-  isLocalDev: boolean;
-}
-
-export async function loader({ context, request }: LoaderFunctionArgs) {
-  const env = getEnv(context);
-  const url = new URL(request.url);
-  
-  // LOCAL DEV MODE: No DB binding = use mock data, no setup redirect
-  if (!env.DB) {
-    console.log("📦 Local dev mode: Using mock configuration");
-    return json<LoaderData>({ 
-      branding: configToBranding(mockConfig as any),
-      isLocalDev: true,
-    });
-  }
-  
-  // Allow setup route without redirect
-  if (url.pathname.startsWith("/setup")) {
-    return json<LoaderData>({ branding: defaultBranding, isLocalDev: false });
-  }
-  
-  // PRODUCTION: Query D1 database
-  const db = getDb(env.DB);
-  
-  try {
-    const configRows = await db.select().from(siteConfig).limit(1);
-    const config = configRows[0] || null;
-    
-    // Redirect to setup if not configured (production only)
-    if (!config || !config.setupComplete) {
-      return redirect("/setup");
-    }
-    
-    return json<LoaderData>({ 
-      branding: configToBranding(config),
-      isLocalDev: false,
-    });
-  } catch (error) {
-    // Table might not exist yet - redirect to setup
-    console.error("Failed to load config:", error);
-    return redirect("/setup");
-  }
-}
-
-/**
- * Generate CSS custom properties from branding config
- */
-function generateThemeStyles(branding: BrandingConfig): string {
-  return `
-    :root {
-      --color-primary: ${branding.primaryColor};
-      --color-secondary: ${branding.secondaryColor};
-    }
-  `;
-}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen flex flex-col bg-white text-slate-900">
+      <body className="min-h-screen flex flex-col bg-background text-foreground antialiased">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -119,17 +41,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { branding } = useLoaderData<typeof loader>();
-  
   return (
-    <BrandingProvider config={branding}>
-      <style dangerouslySetInnerHTML={{ __html: generateThemeStyles(branding) }} />
-      <Navbar />
+    <>
+      <Navbar githubUrl="https://github.com/mxrcochxvez/cloudflare-template" />
       <main className="flex-1">
-        <Outlet context={{ branding }} />
+        <Outlet />
       </main>
-      <Footer />
-    </BrandingProvider>
+      {/* Simple footer */}
+      <footer className="border-t py-8 text-center text-sm text-muted-foreground">
+        <p>Built with ❤️ using Remix, Cloudflare, and shadcn/ui</p>
+      </footer>
+    </>
   );
 }
 
@@ -155,14 +77,14 @@ export function ErrorBoundary() {
         <Links />
         <title>{title}</title>
       </head>
-      <body className="min-h-screen flex items-center justify-center bg-slate-50">
+      <body className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center px-4">
-          <p className="text-6xl font-bold text-primary-600 mb-4">{status}</p>
-          <h1 className="text-2xl font-semibold text-slate-900 mb-2">{title}</h1>
-          <p className="text-slate-600 mb-6">{message}</p>
+          <p className="text-7xl font-bold text-primary mb-4">{status}</p>
+          <h1 className="text-2xl font-semibold mb-2">{title}</h1>
+          <p className="text-muted-foreground mb-8">{message}</p>
           <a
             href="/"
-            className="btn-primary"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
           >
             Go back home
           </a>
