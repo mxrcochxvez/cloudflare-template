@@ -1,4 +1,5 @@
 ---
+trigger: always_on
 description: Code Quality Checklist - Pre-deployment verification for code standards
 ---
 
@@ -177,5 +178,11 @@ After completing the audit, document:
 
 1. **Issues Found** with severity (Critical, High, Medium, Low)
 2. **File Locations** and line numbers
+
+## Abbreviations
+
+Please do not use abbreviations in any code. We need to make sure that the code is readable.
+For that reason we need to make sure that any concept that we come up with, we need to ensure that
+we use a descriptive name for what we are working through.
 3. **Before/After Code** for fixes
 4. **Verification Steps** to confirm resolution
