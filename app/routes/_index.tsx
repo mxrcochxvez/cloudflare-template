@@ -1,3 +1,10 @@
+/**
+ * UI Component Auto-Imports
+ * 
+ * This project uses unplugin-auto-import for automatic component imports.
+ * Components like Button, Card, Badge, Progress, etc. are available globally
+ * without explicit imports. See docs/auto-imports.md for details.
+ */
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
 import {
@@ -18,18 +25,6 @@ import {
   Cpu,
   MousePointerClick
 } from "lucide-react";
-import { Button } from "~/components/ui/button";
-import { Container } from "~/components/ui/container";
-import { Section } from "~/components/ui/section";
-import { Grid } from "~/components/ui/grid";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
-import { Avatar, AvatarFallback } from "~/components/ui/avatar";
-import { Input } from "~/components/ui/input";
-import { Alert, AlertTitle, AlertDescription } from "~/components/ui/alert";
-import { Skeleton } from "~/components/ui/skeleton";
-import { Separator } from "~/components/ui/separator";
-import { DeveloperSpeedComparison } from "~/components/ui/speed-comparison";
 
 export const meta: MetaFunction = () => {
   return [
