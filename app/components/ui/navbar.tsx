@@ -59,7 +59,6 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
           <div className="flex h-16 items-center justify-between">
             {/* Brand */}
             <Link to="/" className="flex items-center gap-2 font-bold text-lg">
-              <span className="text-primary">⚡</span>
               {brand}
             </Link>
 
