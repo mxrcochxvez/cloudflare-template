@@ -3,6 +3,7 @@ import {
 } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import AutoImport from "unplugin-auto-import/vite";
 
 declare module "@remix-run/cloudflare" {
   interface Future {
@@ -24,6 +25,23 @@ export default defineConfig({
       },
     }),
     tsconfigPaths(),
+    AutoImport({
+      imports: [
+        // React
+        {
+          react: ["useState", "useEffect", "useCallback", "useMemo", "useRef", "forwardRef"],
+        },
+      ],
+      // Custom imports for UI components
+      dirs: [
+        "./app/components/ui",
+      ],
+      dts: "./app/auto-imports.d.ts", // TypeScript declaration file
+      eslintrc: {
+        enabled: true,
+        filepath: "./.eslintrc-auto-import.json",
+      },
+    }),
   ],
   base: process.env.GH_PAGES === "true" ? "/cloudflare-template/" : "/",
   build: {
