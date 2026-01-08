@@ -40,6 +40,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+export function HydrateFallback() {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-r-transparent" />
+          <p className="text-muted-foreground animate-pulse">Loading...</p>
+        </div>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
 export default function App() {
   return (
     <>

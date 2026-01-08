@@ -13,6 +13,7 @@ declare module "@remix-run/cloudflare" {
 export default defineConfig({
   plugins: [
     remix({
+      ssr: process.env.GH_PAGES !== "true", // SPA Mode only for GitHub Pages
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
@@ -23,14 +24,7 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
-  ssr: {
-    resolve: {
-      conditions: ["workerd", "worker", "browser"],
-    },
-  },
-  resolve: {
-    mainFields: ["browser", "module", "main"],
-  },
+  base: process.env.GH_PAGES === "true" ? "/cloudflare-template/" : "/",
   build: {
     minify: true,
   },

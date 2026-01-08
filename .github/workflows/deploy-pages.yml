@@ -34,8 +34,11 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: |
+          npm run build
+          cp build/client/index.html build/client/404.html
         env:
+          GH_PAGES: "true"
           NODE_ENV: production
 
       - name: Upload artifact
